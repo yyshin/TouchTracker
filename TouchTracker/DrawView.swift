@@ -27,21 +27,21 @@ class DrawView: UIView, UIGestureRecognizerDelegate {
         super.init(coder: aDecoder)
         
         let doubleTapRecognizer = UITapGestureRecognizer(target: self,
-                                                         action: "doubleTap:")
+                                                         action: #selector(DrawView.doubleTap(_:)))
         doubleTapRecognizer.numberOfTapsRequired = 2
         doubleTapRecognizer.delaysTouchesBegan = true
         addGestureRecognizer(doubleTapRecognizer)
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: "tap:")
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(DrawView.tap(_:)))
         tapRecognizer.delaysTouchesBegan = true
         tapRecognizer.requireGestureRecognizerToFail(doubleTapRecognizer)
         addGestureRecognizer(tapRecognizer)
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self,
-                                                               action: "longPress:")
+                                                               action: #selector(DrawView.longPress(_:)))
         addGestureRecognizer(longPressRecognizer)
         
-        moveRecognizer = UIPanGestureRecognizer(target: self, action: "moveLine:")
+        moveRecognizer = UIPanGestureRecognizer(target: self, action: #selector(DrawView.moveLine(_:)))
         moveRecognizer.delegate = self
         moveRecognizer.cancelsTouchesInView = false
         addGestureRecognizer(moveRecognizer)
@@ -124,7 +124,7 @@ class DrawView: UIView, UIGestureRecognizerDelegate {
             becomeFirstResponder()
             
             // Create a new "Delete" UIMenuItem
-            let deleteItem = UIMenuItem(title: "Delete", action: "deleteLine:")
+            let deleteItem = UIMenuItem(title: "Delete", action: #selector(DrawView.deleteLine(_:)))
             menu.menuItems = [deleteItem]
             
             // Tell the menu where it should come from and show it
@@ -211,7 +211,7 @@ class DrawView: UIView, UIGestureRecognizerDelegate {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         // Let's put in a log statement to see the order of events
-        print(__FUNCTION__)
+        print(#function)
         
         for touch in touches {
             let location = touch.locationInView(self)
@@ -227,7 +227,7 @@ class DrawView: UIView, UIGestureRecognizerDelegate {
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         // Let's put in a print statement to see the order of events
-        print(__FUNCTION__)
+        print(#function)
         
         for touch in touches {
             let key = NSValue(nonretainedObject: touch)
@@ -239,7 +239,7 @@ class DrawView: UIView, UIGestureRecognizerDelegate {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         // Let's put in a log statement to see the order of events
-        print(__FUNCTION__)
+        print(#function)
         
         for touch in touches {
             let key = NSValue(nonretainedObject: touch)
@@ -257,7 +257,7 @@ class DrawView: UIView, UIGestureRecognizerDelegate {
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
         
         // Let's put in a log statement to see the order of events
-        print(__FUNCTION__)
+        print(#function)
         
         currentLines.removeAll()
         
